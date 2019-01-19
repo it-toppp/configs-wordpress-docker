@@ -94,7 +94,7 @@ services:
       - frontend
     volumes:
       # Ensure WP themes/plugins/uploads persist between restarts.
-      - vol-wp-content:/var/www/html/wp-content
+      - vol-wp-content:/var/www/html
       # Install our own php.ini, which can be customized.
       - ./php.ini:/usr/local/etc/php/php.ini
     environment:
