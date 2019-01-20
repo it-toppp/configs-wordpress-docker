@@ -33,10 +33,10 @@ curl -fsSL https://raw.githubusercontent.com/BytemarkHosting/configs-wordpress-d
 # Traefik needs a file to store SSL/TLS keys and certificates.
 touch /root/compose/acme.json
 chmod 0600 /root/compose/acme.json
-mchmod 0777 -R /root/compose/www/html-1
+chmod 0777 -R /root/compose/www/html-1
 # Use the hostname of the server as the main domain.
-sed -i -e "s|^TRAEFIK_DOMAINS=.*|TRAEFIK_DOMAINS=`$HOST -f`|" /root/compose/.env
-sed -i -e "s|^WORDPRESS_DOMAINS=.*|WORDPRESS_DOMAINS=`$HOST -f`|" /root/compose/.env
+sed -i -e "s|^TRAEFIK_DOMAINS=.*|TRAEFIK_DOMAINS=$HOST |" /root/compose/.env
+sed -i -e "s|^WORDPRESS_DOMAINS=.*|WORDPRESS_DOMAINS=$HOST |" /root/compose/.env
  
 # Fill /root/compose/.env with some randomly generated passwords.
 sed -i -e "s|^WORDPRESS_DB_ROOT_PASSWORD=.*|WORDPRESS_DB_ROOT_PASSWORD=`cat /dev/urandom | tr -dc '[:alnum:]' | head -c14`|" /root/compose/.env
