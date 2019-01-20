@@ -15,7 +15,7 @@ networks:
 # We don't want our data to be lost when restarting containers.
 volumes:
   vol-wp-db:
-  vol-wp-content:
+#  vol-wp-content:
 
 # Create our containers.
 services:
@@ -61,7 +61,6 @@ services:
     labels:
       - "traefik.enable=false"
 
-
   wp-db:
     # https://hub.docker.com/_/mariadb/
     # Specify 10.3 as we only want watchtower to apply minor updates
@@ -81,39 +80,6 @@ services:
     labels:
       - "traefik.enable=false"
 
-  # The main front-end application.
-  wp:
-    # https://hub.docker.com/_/wordpress/
-    # Replace "latest" with "4.9" to stick to a specific version.
-    image: wordpress:latest
-    depends_on:
-      - wp-db
-    restart: always
-    networks:
-      - backend
-      - frontend
-    volumes:
-      # Ensure WP themes/plugins/uploads persist between restarts.
-      - vol-wp-content:/var/www/html
-      # Install our own php.ini, which can be customized.
-      - ./php.ini:/usr/local/etc/php/php.ini
-    environment:
-      WORDPRESS_DB_HOST: wp-db:3306
-      WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
-      WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
-      WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD}
-    labels:
-      - "traefik.docker.network=frontend"
-      - "traefik.enable=true"
-      - "traefik.frontend.rule=Host:${WORDPRESS_DOMAINS}"
-      - "traefik.port=80"
-      - "traefik.protocol=http"
-      # Uncomment the following line to enable HSTS header.
-      #- "traefik.frontend.headers.STSSeconds=15768000"
-
-  # Navigate to http://example.com/phpmyadmin/ to manage your MySQL
-  # databases. (Don't forget the last forward slash.) Like the Traefik
-  # dashboard, this is behind a login prompt to help you stay secure.
   wp-phpmyadmin:
     # https://hub.docker.com/r/phpmyadmin/phpmyadmin/
     image: phpmyadmin/phpmyadmin:latest
@@ -149,4 +115,36 @@ services:
       - frontend
     labels:
       - "traefik.enable=false"
+      
+        # The main front-end application.
+  wp:
+    # https://hub.docker.com/_/wordpress/
+    # Replace "latest" with "4.9" to stick to a specific version.
+    image: wordpress:latest
+    depends_on:
+      - wp-db
+    restart: always
+    networks:
+      - backend
+      - frontend
+    volumes:
+      # Ensure WP themes/plugins/uploads persist between restarts.
+      - /var/www/html-1:/var/www/html
+      # Install our own php.ini, which can be customized.
+      - ./php.ini:/usr/local/etc/php/php.ini
+    environment:
+      WORDPRESS_DB_HOST: wp-db:3306
+      WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
+      WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
+      WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD}
+    labels:
+      - "traefik.docker.network=frontend"
+      - "traefik.enable=true"
+      - "traefik.frontend.rule=Host:${WORDPRESS_DOMAINS}"
+      - "traefik.port=80"
+      - "traefik.protocol=http"
+      # Uncomment the following line to enable HSTS header.
+      #- "traefik.frontend.headers.STSSeconds=15768000"
+
+
 
