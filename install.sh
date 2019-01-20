@@ -1,4 +1,8 @@
 #!/bin/sh
+
+echo "Enter domain: "
+read HOST
+
 export DEBIAN_FRONTEND=noninteractive
  
 # Wait for apt-get to be available.
