@@ -48,4 +48,4 @@ sed -i -e "s|^BASIC_AUTH=.*|BASIC_AUTH=$BASIC_AUTH|" /root/compose/.env
  
 # Start our containers.
 cd /root/compose
-#docker-compose up -d
+docker-compose up -d
