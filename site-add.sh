@@ -5,7 +5,7 @@ echo "what is the site number: "
 read SNUM
 #WORDPRESS_DB=wordpres$(cat /dev/urandom | tr -dc '[:digit:]' | head -c5`)
 
-cat >/root/compose/.env <<EOL
+cat >>/root/compose/.env <<EOL
 WORDPRESS_DB_NAME$SNUM=wordpres$SNUM
 WORDPRESS_DOMAINS$SNUM=$HOST
 
