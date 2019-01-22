@@ -25,7 +25,7 @@ apt-get install -y unattended-upgrades
 # Retrieve configuration files. Lots of explanatory comments inside!
 # If you'd rather inspect and install these files yourself, see:
 # https://docs.bytemark.co.uk/article/wordpress-on-docker-with-phpmyadmin-ssl-via-traefik-and-automatic-updates/#look-a-bit-deeper
-mkdir -p -p /root/compose/www/html-1
+mkdir -p -p /root/compose/www/html
 curl -fsSL https://raw.githubusercontent.com/it-toppp/configs-wordpress-docker/master/docker-compose.yml -o /root/compose/docker-compose.yml
 curl -fsSL https://raw.githubusercontent.com/it-toppp/configs-wordpress-docker/master/.env -o /root/compose/.env
 curl -fsSL https://raw.githubusercontent.com/BytemarkHosting/configs-wordpress-docker/master/traefik.toml -o /root/compose/traefik.toml
@@ -34,7 +34,7 @@ curl -fsSL https://raw.githubusercontent.com/BytemarkHosting/configs-wordpress-d
 # Traefik needs a file to store SSL/TLS keys and certificates.
 touch /root/compose/acme.json
 chmod 0600 /root/compose/acme.json
-chmod 0777 -R /root/compose/www/html-1
+chmod 0777 -R /root/compose/www/html
 # Use the hostname of the server as the main domain.
 sed -i -e "s|^TRAEFIK_DOMAINS=.*|TRAEFIK_DOMAINS=$HOST|" /root/compose/.env
 sed -i -e "s|^WORDPRESS_DOMAINS=.*|WORDPRESS_DOMAINS=$HOST|" /root/compose/.env
