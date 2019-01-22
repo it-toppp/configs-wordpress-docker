@@ -49,4 +49,18 @@ EOL
 docker exec -it compose_wp-db_1 mysql -u root -p$WORDPRESS_DB_ROOT_PASSWORD  -e "$(cat /root/compose/sql)"
 
 cd /root/compose
-docker-compose up -d wp$SNUM
+docker-compose up -d wp$SNUM &> /dev/null
+echo "Done. Open in you WebBrowser http://$HOST "
+echo -n "Add new website? (y/n) "
+read item
+case "$item" in
+    y|Y) bash /root/site-add.sh
+        ;;
+    n|N)
+        exit 0
+        ;;
+esac
+
+
+
+
