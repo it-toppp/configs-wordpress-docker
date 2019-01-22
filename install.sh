@@ -30,7 +30,7 @@ curl -fsSL https://raw.githubusercontent.com/it-toppp/configs-wordpress-docker/m
 curl -fsSL https://raw.githubusercontent.com/it-toppp/configs-wordpress-docker/master/.env -o /root/compose/.env
 curl -fsSL https://raw.githubusercontent.com/BytemarkHosting/configs-wordpress-docker/master/traefik.toml -o /root/compose/traefik.toml
 curl -fsSL https://raw.githubusercontent.com/BytemarkHosting/configs-wordpress-docker/master/php.ini -o /root/compose/php.ini
- 
+curl -fsSL https://raw.githubusercontent.com/it-toppp/configs-wordpress-docker/master/site-add.sh -o /root/compose/site-add.sh
 # Traefik needs a file to store SSL/TLS keys and certificates.
 touch /root/compose/acme.json
 chmod 0600 /root/compose/acme.json
@@ -50,3 +50,14 @@ sed -i -e "s|^BASIC_AUTH=.*|BASIC_AUTH=$BASIC_AUTH|" /root/compose/.env
 # Start our containers.
 cd /root/compose
 docker-compose up -d
+
+echo "Done. Open in you WebBrowser http://$HOST "
+echo -n "Add new website? (y/n) "
+read item
+case "$item" in
+    y|Y) bash /root/site-add.sh
+        ;;
+    n|N)
+        exit 0
+        ;;
+esac
