@@ -8,6 +8,7 @@ read SNUM
 cat >>/root/compose/.env <<EOL
 WORDPRESS_DB_NAME$SNUM=wordpres$SNUM
 WORDPRESS_DOMAINS$SNUM=$HOST
+EOL
 
 cat >/root/compose/sql <<EOL
 CREATE DATABASE wordpress$SNUM DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci
@@ -15,7 +16,7 @@ GRANT ALL PRIVILEGES ON wordpress.* TO 'wordpress'@'%';
 FLUSH PRIVILEGES;
 EOL
 
-docker exec -it compose_wp-db_1 mysql -u root -ppassword  -e "$(cat /root/compose/sql)"
+docker exec -it compose_wp-db_1 mysql -u root -p$WORDPRESS_DB_ROOT_PASSWORD  -e "$(cat /root/compose/sql)"
 
 cat >>/root/compose/docker-compose.yml <<EOL
   wp$SNUM:
