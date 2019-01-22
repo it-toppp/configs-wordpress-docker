@@ -42,6 +42,7 @@ cat >>/root/compose/docker-compose.yml <<EOL
       - "traefik.protocol=http"
 EOL
 mkdir -p /root/compose/www/html$SNUM
+chmod 0777 -R /root/compose/www/html$SNUM
 cd /root/compose
 docker-compose up -d wp$SNUM
 
